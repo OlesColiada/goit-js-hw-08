@@ -5,31 +5,13 @@ let videoStopTime = 0;
 const iframe = document.querySelector('iframe');
 const player = new VimeoPlayer(iframe);
 
-player.on('play', function() {
-    console.log('played the video!');
-    });
-
-player.getVideoTitle().then(function(title) {
-        console.log('title:', title);
-    });
-
-player.on('timeupdate', throttle(function (data){
-    videoStopTime = data.seconds;
-    localStorage.setItem('videoplayer-stop-time', videoStopTime)
+player.on('timeupdate', throttle(function ({seconds}){
+    localStorage.setItem('videoplayer-stop-time', seconds)
 }, 1000));
 
 
-const savedStopTime = parseFloat(localStorage.getItem('videoplayer-stop-time'));
-if(!isNaN(savedStopTime)) {player.setCurrentTime(savedStopTime).then(function() {
-    console.log('video started again');
-}).catch(function(error) {
-    switch (error.name) {
-        case 'RangeError':
-            break;
-        default:
-            break;
-    }
-});}  
+const savedStopTime = localStorage.getItem('videoplayer-stop-time') || 0;
+player.setCurrentTime(savedStopTime);
 
 
 

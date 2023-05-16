@@ -1,7 +1,7 @@
 import throttle from 'lodash.throttle';
 const feedbackForm = document.querySelector('.feedback-form');
-let userEmail = document.querySelector('input[type="email"]');
-let userMessage = document.querySelector('textarea');
+const userEmail = document.querySelector('input[type="email"]');
+const userMessage = document.querySelector('textarea');
 
 
 feedbackForm.addEventListener('input', throttle(function(){
@@ -13,7 +13,7 @@ feedbackForm.addEventListener('input', throttle(function(){
 
 feedbackForm.addEventListener('submit', function(event) {
     event.preventDefault(); 
-
+    if(userEmail.value !== '' && userMessage.value !== ''){
     const emailValue = userEmail.value;
     const messageValue = userMessage.value;
     const formData = {
@@ -24,7 +24,7 @@ feedbackForm.addEventListener('submit', function(event) {
 
     localStorage.clear();
     userEmail.value = '';
-    userMessage.value = '';
+    userMessage.value = '';} else {alert('Fill in all fields of form please!')}
 });
 
 
